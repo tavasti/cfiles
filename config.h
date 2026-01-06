@@ -7,7 +7,7 @@
 */
 
 // Set to 1 if you want to see hidden files on startup
-#define SHOW_HIDDEN 0
+#define SHOW_HIDDEN 1
 
 // Set to 0 if you want to disable borders
 #define SHOW_BORDERS 1
@@ -90,6 +90,12 @@
 
 // Empty the selection list
 #define KEY_EMPTYSEL 'u'
+
+// Add files to selection with wildcards
+#define KEY_WILDCARDSEL 'w'
+
+// Remove files from selection with wildcards
+#define KEY_WILDCARDUNSEL 'W'
 
 // Copy files in selection list to the current directory
 #define KEY_YANK 'y'

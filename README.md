@@ -61,6 +61,8 @@ to install.
 | <kbd>space</kbd> | Add/Remove to/from selection list |
 | <kbd>tab</kbd> | View selection list |
 | <kbd>e</kbd> | Edit selection list |
+| <kbd>w</kbd> | Select files with wildcards |
+| <kbd>w</kbd> | Unselect files with wildcards |
 | <kbd>u</kbd> | Empty selection list |
 | <kbd>y</kbd> | Copy files from selection list |
 | <kbd>v</kbd> | Move files from selection list |

@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <curses.h>
+#include <fnmatch.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -787,7 +788,6 @@ int compare (const void * a, const void * b )
         return strcasecmp(*(char **)a, *(char **)b);
     }
 }
-
 
 /*
    Gets file MIME
@@ -2656,6 +2656,84 @@ int main(int argc, char* argv[])
                 emptyClipboard();
                 selectedFiles = 0;
                 break;
+
+            // Select files with shell wildcards
+            case KEY_WILDCARDSEL:
+            {
+                char pattern[100];
+                char full_path[PATH_MAX];
+
+                // 1. UI Prompt, get pattern from user
+                echo();
+                curs_set(1);
+                mvprintw(LINES - 1, 0, "Select pattern: ");
+                getnstr(pattern, 99);
+                noecho();
+                curs_set(0);
+
+                // Actual selection
+                for (int i = 0; i < len; i++)
+                {
+		    if (directories[i] == NULL) continue;
+		    if (strcmp(directories[i], ".") == 0 || strcmp(directories[i], "..") == 0) continue;
+		    if (fnmatch(pattern, directories[i], 0) == 0) {
+			snprintf(full_path, sizeof(full_path), "%s/%s", dir, directories[i]);
+                        char *temp = strdup(full_path);
+			if(temp == NULL)
+                        {
+			   endwin();
+			   printf("%s\n", "Couldn't allocate memory!");
+			   exit(1);
+			}
+                        if (checkClipboard(full_path) != 1)
+                        {
+			    writeClipboard(replace(temp,"\n","//"));
+                            selectedFiles++;
+                        }
+			free(temp);
+		    }
+		}
+                break;
+            }
+
+            // Unselect files with shell wildcards
+            case KEY_WILDCARDUNSEL:
+            {
+                char pattern[100];
+                char full_path[PATH_MAX];
+
+                // 1. UI Prompt, get pattern from user
+                echo();
+                curs_set(1);
+                mvprintw(LINES - 1, 0, "De-select pattern: ");
+                getnstr(pattern, 99);
+                noecho();
+                curs_set(0);
+
+                // Actual selection
+                for (int i = 0; i < len; i++)
+                {
+		    if (directories[i] == NULL) continue;
+		    if (strcmp(directories[i], ".") == 0 || strcmp(directories[i], "..") == 0) continue;
+		    if (fnmatch(pattern, directories[i], 0) == 0) {
+			snprintf(full_path, sizeof(full_path), "%s/%s", dir, directories[i]);
+                        char *temp = strdup(full_path);
+			if(temp == NULL)
+			{
+			   endwin();
+			   printf("%s\n", "Couldn't allocate memory!");
+			   exit(1);
+			}
+                        if (checkClipboard(full_path) == 1)
+                        {
+			    removeClipboard(replace(temp,"\n","//"));
+                            selectedFiles--;
+                        }
+			free(temp);
+		    }
+		}
+                break;
+            }
 
             // Copy clipboard contents to present directory
             case KEY_YANK:
