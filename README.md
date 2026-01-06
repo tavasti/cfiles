@@ -34,7 +34,7 @@ to install.
 
 If you are compiling in system without pkg-config, just run:
     
-    run gcc  cf.c -o cfiles -lncursesw -ltinfo
+    gcc cf.c -o cfiles -lncursesw -ltinfo
 
 Place cfiles-binary to your path. See also prefix in Makefile if wanting to run 'make install' to for example to your home directory. 
 
