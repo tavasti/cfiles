@@ -1,23 +1,17 @@
 <h1 align="center">cfiles</h1>
 
 <p align="center">
-<a href="https://github.com/mananapr/cfiles/releases/latest"><img src="https://img.shields.io/github/release/mananapr/cfiles/all.svg" alt="Latest release" /></a>
-<a href="https://aur.archlinux.org/packages/cfiles/"><img src="https://img.shields.io/aur/version/cfiles.svg" alt="Arch Linux" /></a>
-<a href="https://github.com/mananapr/homebrew-cfiles"><img src="https://img.shields.io/badge/homebrew-v1.8-blue.svg" alt="Homebrew" /></a>
-</p>
-
-<p align="center">
 <a href="https://github.com/mananapr/cfiles/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License" /></a>
 </p>
 
 `cfiles` is a terminal file manager with vim like keybindings, written in C using the ncurses
 library. It aims to provide an interface like [ranger](https://github.com/ranger/ranger) while being lightweight, fast and
-minimal.
+minimal. This is my personal fork, adding some features.
 
 ![screenshot](cf.png)
 
 ## Dependencies
-- `ncursesw`
+- `ncursesw` (mandatory, rest are optional)
 - `cp`and `mv` for copying and moving
 - `fzf` for searching
 - `w3mimgdisplay` or `Überzug` for image previews
@@ -26,12 +20,6 @@ minimal.
 - `poppler`(specifically `pdftoppm`) for pdf previews
 
 ## Compiling and Installation
-#### Arch Linux
-Arch Linux users can use the [AUR](https://aur.archlinux.org/packages/cfiles) package.
-
-#### macOS
-macOS users can use [brew](https://github.com/mananapr/homebrew-cfiles) or [macports](https://github.com/macports/macports-ports/tree/master/sysutils/cfiles)
-
 
 #### Others
 To compile, run
@@ -43,6 +31,13 @@ and then run,
     sudo make install
 
 to install.
+
+If you are compiling in system without pkg-config, just run:
+    
+    run gcc  cf.c -o cfiles -lncursesw -ltinfo
+
+Place cfiles-binary to your path. See also prefix in Makefile if wanting to run 'make install' to for example to your home directory. 
+
 
 ## Keybindings
 | Key | Function |
